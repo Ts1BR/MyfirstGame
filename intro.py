@@ -10,23 +10,31 @@ HEIGHT = 600
 
 score = 0
 lives = 3
+Highscore = 0
 
 Back = ("jetpack_joy")
 
 def draw():
+    global Highscore
     global score
     global lives
     global WIDTH
     global HEIGHT
+    global Back
+    global Back2
     screen.clear()
     screen.blit(Back, (0,0))
     alien.draw()
-    screen.draw.text('Highscore: '+str(score),[10,10])
+    screen.draw.text('score: '+str(score),[10,10])
     screen.draw.text('lives: '+str(lives),[10,25])
+    screen.draw.text('Highscore: '+str(Highscore),[10,40])
+    if score > Highscore:
+        Highscore = score
     if lives == 0:
         screen.clear()
-        screen.draw.text("game over",[WIDTH*2/5,HEIGHT/2])
-        screen.draw.text('press "r" restart',[180,200])
+        screen.draw.text("game over",[WIDTH/2-21,HEIGHT/2])
+        screen.draw.text('press "r" restart',[WIDTH/2-31,200])
+        screen.draw.text("Score: "+str(score), [WIDTH/2-10, 250])
         if keyboard.r:
             score = 0
             lives = 3
