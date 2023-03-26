@@ -11,10 +11,14 @@ HEIGHT = 600
 score = 0
 lives = 3
 Highscore = 0
+level = 1
 
 Back = ("jetpack_joy")
 
 def draw():
+    global level
+    global x
+    global y
     global Highscore
     global score
     global lives
@@ -25,11 +29,13 @@ def draw():
     screen.clear()
     screen.blit(Back, (0,0))
     alien.draw()
-    screen.draw.text('score: '+str(score),[10,10])
-    screen.draw.text('lives: '+str(lives),[10,25])
+    screen.draw.text('Score: '+str(score),[10,10])
+    screen.draw.text('Lives: '+str(lives),[10,25])
     screen.draw.text('Highscore: '+str(Highscore),[10,40])
+    screen.draw.text('Level: '+str(level),[10,55])
     if score > Highscore:
         Highscore = score
+        
     if lives == 0:
         screen.clear()
         screen.draw.text("game over",[WIDTH/2-21,HEIGHT/2])
@@ -38,13 +44,19 @@ def draw():
         if keyboard.r:
             score = 0
             lives = 3
+            Back = ("jetpack_joy.png")
+            x = 3
+            y = 5
             draw()
+
 
 x = 3
 y = 5
 
 
 def update():
+    global level
+    global Back
     global score
     global x
     global y
@@ -53,16 +65,36 @@ def update():
     # time.sleep(1)
     # x = random.randrange(0,900)
     # y = random.randrange(0, 600)
-    if alien.y > HEIGHT:
+    if score <= 9 and alien.y > HEIGHT:
         x = 3
         y = -5
-    elif alien.y < 0:
+    elif score <= 9 and alien.y < 0:
         x = 3
         y = 5
-    elif alien.x > WIDTH:
+    elif score <= 9 and alien.x > WIDTH:
         alien.pos = 0, 10
         x = 3
         y = 5
+    elif score > 9 and alien.y < 0:
+        x = 5
+        y = 7
+    elif score > 9 and alien.y > HEIGHT:
+        x = 5
+        y = -7
+    elif score > 9 and alien.x > WIDTH:
+        alien.pos = 0, 10
+        x = 5
+        y = 7   
+    
+    if score < 9:
+        Back = ("jetpack_joy.png")
+        level = 1
+    elif score > 9:
+        Back = ("spaceb.png")
+        level = 2
+    elif score > 19:
+        Back = ("screen.png")    
+        level = 3
 
 def on_mouse_down(pos):
     global score
